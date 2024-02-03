@@ -5,19 +5,21 @@ from django.core.exceptions import ValidationError
 
 
 class User(AbstractUser):
-    can_be_contacted = models.BooleanField(default=True)
-    can_data_be_shared = models.BooleanField(default=True)
+    can_be_contacted = models.BooleanField(default=False)
+    can_data_be_shared = models.BooleanField(default=False)
     age = models.PositiveIntegerField()
+    REQUIRED_FIELDS = ['age']
 
-    def clean(self):
-        if self.age < 15 and self.can_data_be_shared:
+    def save(self, *args, **kwargs):
+        if self.can_data_be_shared and self.age < 15:
             raise ValidationError(
-                "User must be at least 15 years old to share data")
-        super().clean()
+                'User must be at least 18 years old to share data.')
+        super().save(*args, **kwargs)
 
 
 class Contributor(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_time = models.DateTimeField(auto_now_add=True)
 
 
 class Project(models.Model):
@@ -31,6 +33,7 @@ class Project(models.Model):
         ('android', 'Android'),
     ]
     type = models.CharField(max_length=10, choices=type_choices)
+    created_time = models.DateTimeField(auto_now_add=True)
 
 
 class Issue(models.Model):
@@ -57,6 +60,7 @@ class Issue(models.Model):
     ]
     status = models.CharField(
         max_length=15, choices=status_choices, default='TODO')
+    created_time = models.DateTimeField(auto_now_add=True)
 
 
 class Comment(models.Model):
@@ -67,7 +71,3 @@ class Comment(models.Model):
         Issue, on_delete=models.CASCADE, related_name='comments')
     uuid = models.UUIDField(unique=True, editable=False, default=uuid.uuid4)
     created_time = models.DateTimeField(auto_now_add=True)
-
-
-class Test(models.Model):
-    test = models.CharField(max_length=255)

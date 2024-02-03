@@ -1,8 +1,8 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from .models import Contributor, User, Project
-from .serializers import ContributorSerializer, UserSerializer, ProjectSerializer
+from .models import Contributor, User, Project, Issue
+from .serializers import ContributorSerializer, UserSerializer, ProjectSerializer, IssueSerializer
 from django.shortcuts import get_object_or_404
 
 
@@ -35,6 +35,11 @@ class ContributorViewSet(viewsets.ModelViewSet):
         return Response({"status": "Contributeur lié au projet avec succès."})
 
 
-class ProjectViewSet(viewsets.ViewSet):
+class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
+
+
+class IssueViewSet(viewsets.ModelViewSet):
+    queryset = Issue.objects.all()
+    serializer_class = IssueSerializer
