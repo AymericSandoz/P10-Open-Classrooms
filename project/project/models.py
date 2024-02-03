@@ -23,7 +23,10 @@ class Contributor(models.Model):
 
 
 class Project(models.Model):
-    author = models.ForeignKey(Contributor, on_delete=models.CASCADE)
+    author = models.ForeignKey(
+        Contributor, related_name='authored_projects', on_delete=models.CASCADE)
+    contributors = models.ManyToManyField(
+        Contributor, related_name='contributed_to_projects')
     name = models.CharField(max_length=255)
     description = models.TextField()
     type_choices = [

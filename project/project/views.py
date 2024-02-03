@@ -4,6 +4,7 @@ from rest_framework.decorators import action
 from .models import Contributor, User, Project, Issue
 from .serializers import ContributorSerializer, UserSerializer, ProjectSerializer, IssueSerializer
 from django.shortcuts import get_object_or_404
+from .permissions import IsAdminAuthenticated, IsUserAuthenticated
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -21,6 +22,7 @@ class UserViewSet(viewsets.ModelViewSet):
 class ContributorViewSet(viewsets.ModelViewSet):
     queryset = Contributor.objects.all()
     serializer_class = ContributorSerializer
+    # permission_classes = [IsUserAuthenticated]
 
     @action(detail=True, methods=['post'])
     def link_to_project(self, request, pk=None):
@@ -38,8 +40,28 @@ class ContributorViewSet(viewsets.ModelViewSet):
 class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
+    permission_classes = [IsUserAuthenticated]
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        contributor, created = Contributor.objects.get_or_create(user=user)
+        project = serializer.save(author=contributor)
+        project.contributors.add(contributor)
+        project.save()
 
 
 class IssueViewSet(viewsets.ModelViewSet):
     queryset = Issue.objects.all()
     serializer_class = IssueSerializer
+    # permission_classes = [IsUserAuthenticated]
+
+    @action(detail=True, methods=['update'])
+    def change_status(self, request, pk=None):
+        issue = self.get_object()
+        status = request.data.get('status')
+
+        # Logique pour changer le statut de l'issue
+        issue.status = status
+        issue.save()
+
+        return Response({"status": "Statut de l'issue modifié avec succès."})
