@@ -9,6 +9,7 @@ class User(AbstractUser):
     can_data_be_shared = models.BooleanField(default=False)
     age = models.PositiveIntegerField()
     REQUIRED_FIELDS = ['age']
+    created_time = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         if self.can_data_be_shared and self.age < 15:
@@ -19,12 +20,16 @@ class User(AbstractUser):
 
 class Contributor(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    project = models.ForeignKey('Project', on_delete=models.CASCADE)
     created_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'project',)
 
 
 class Project(models.Model):
     author = models.ForeignKey(
-        Contributor, related_name='authored_projects', on_delete=models.CASCADE)
+        User, related_name='authored_projects', on_delete=models.CASCADE)
     contributors = models.ManyToManyField(
         Contributor, related_name='contributed_to_projects')
     name = models.CharField(max_length=255)
@@ -40,10 +45,13 @@ class Project(models.Model):
 
 
 class Issue(models.Model):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    project = models.ForeignKey(
+        Project, on_delete=models.CASCADE, related_name='issues')
     title = models.CharField(max_length=255)
     description = models.TextField()
-    assigned_to = models.ForeignKey(Contributor, on_delete=models.CASCADE)
+    assigned_to = models.ForeignKey(
+        Contributor, null=True, on_delete=models.CASCADE)
     priority_choices = [
         ('LOW', 'Low'),
         ('MEDIUM', 'Medium'),
@@ -67,10 +75,9 @@ class Issue(models.Model):
 
 
 class Comment(models.Model):
-    issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
+    issue = models.ForeignKey(
+        Issue, on_delete=models.CASCADE, related_name='comments')
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
-    link_to_issue = models.ForeignKey(
-        Issue, on_delete=models.CASCADE, related_name='comments')
     uuid = models.UUIDField(unique=True, editable=False, default=uuid.uuid4)
     created_time = models.DateTimeField(auto_now_add=True)

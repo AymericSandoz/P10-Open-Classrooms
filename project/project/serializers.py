@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Contributor, User, Project, Issue
+from .models import Contributor, User, Project, Issue, Comment
 from django.contrib.auth.hashers import make_password
 
 
@@ -25,18 +25,47 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ContributorSerializer(serializers.ModelSerializer):
+    project = serializers.PrimaryKeyRelatedField(
+        queryset=Project.objects.all())
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+
     class Meta:
         model = Contributor
         fields = '__all__'
 
 
-class ProjectSerializer(serializers.ModelSerializer):
+class CommentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Project
-        fields = ['name', 'description', 'type']
+        model = Comment
+        fields = ['text', 'issue']
 
 
 class IssueSerializer(serializers.ModelSerializer):
+    assigned_to = serializers.PrimaryKeyRelatedField(
+        read_only=True, required=False)
+    comments = CommentSerializer(many=True)
+
     class Meta:
         model = Issue
-        fields = '__all__'
+        fields = ['title', 'description',
+                  'assigned_to', 'project', 'priority', 'tag', 'comments']
+
+    def validate(self, data):
+        contributor = data.get('assigned_to')
+        project = data.get('project')
+
+        if contributor and project and contributor not in project.contributors.all():
+            raise serializers.ValidationError(
+                "Le Contributor n'est pas un contributeur du Project")
+
+        return data
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+    contributors = ContributorSerializer(
+        many=True, read_only=True, required=False)
+    issues = IssueSerializer(many=True)
+
+    class Meta:
+        model = Project
+        fields = ['name', 'description', 'type', 'contributors', 'issues']

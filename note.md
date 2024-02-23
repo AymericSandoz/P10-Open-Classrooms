@@ -43,3 +43,44 @@ Dans body puis format json
 "description": "Description du projet 1",
 "type": "frontend"
 }
+
+Question mentor :
+
+Je ne comprends pas quand est ce que les contributors sont créer ?
+A part à la création ou il y a un contbiteur de créer(l'auteur)
+Car on ne peut pas créer d'issues et de commentaires si on est pas contributeurs.
+
+La commande “curl”
+
+Question mentor :
+
+Méthod ela plus clean pour qu'un utilisateur puisse se créer un compte malgré les permissions
+
+Le projet est découpé en plusieurs applications Django (packages) ;
+
+La gestion et la mise à jour des dépendances sont assurées à l’aide d’un outil comme Pipenv ou Poetry ;
+
+L’étudiant est capable d’expliquer les mesures de sécurité mises en place et en quoi elles respectent l’OWASP et le RGPD.
+
+L’API est « green » si les conditions suivantes sont remplies :
+
+Principe de green code mise en place :
+Frugalité fonctionnelle :
+
+Éliminer les fonctionnalités peu utilisées.
+
+Optimisation du contenant :
+
+Optimiser le code : ne garder que les bouts de code utilisé
+
+Optimisation du contenu:
+Pas d'image et de video
+
+Réalisez un état des lieux
+L’identification des fonctionnalités inutiles
+
+Imbriquez les serializers pour la multiplication des requetes. Nottament quand je get un projet je get aussi ses issues et comments
+
+Le listage des ressources est bridé par l’implémentation d’une pagination ;
+
+Les requêtes se résolvent rapidement (un temps de réponse acceptable devrait être inférieur à 200 ms) ;
