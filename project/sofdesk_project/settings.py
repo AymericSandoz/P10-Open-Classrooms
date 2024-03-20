@@ -40,11 +40,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
-    'rest_framework_swagger',
-    'drf_yasg',
+    # 'rest_framework_swagger',
+    # 'drf_yasg',
     'project',
     'authentification',
-
+    'user',
+    'contributor',
+    'issue',
+    'comment',
+    'sofdesk_project',
 ]
 
 SWAGGER_SETTINGS = {
@@ -67,7 +71,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'project.urls'
+ROOT_URLCONF = 'sofdesk_project.urls'
 
 TEMPLATES = [
     {
@@ -85,7 +89,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'project.wsgi.application'
+WSGI_APPLICATION = 'sofdesk_project.wsgi.application'
 
 
 # Database
@@ -140,7 +144,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'project.User'
+AUTH_USER_MODEL = 'user.User'
 
 
 REST_FRAMEWORK = {

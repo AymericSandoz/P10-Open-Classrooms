@@ -1,5 +1,7 @@
 from rest_framework.permissions import BasePermission, SAFE_METHODS
-from .models import Project, Comment, Issue
+from project.models import Project
+from issue.models import Issue
+from comment.models import Comment
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.exceptions import PermissionDenied
 
@@ -18,12 +20,12 @@ class IsUserAuthenticated(BasePermission):
         return bool(request.user and request.user.is_authenticated)
 
 
-class IsUser(BasePermission):
-    def has_permission(self, request, view):
-        # Seul le user peut modifier ou supprimer ses données
-        if request.method in SAFE_METHODS:
-            return True
-        return request.user.id == int(view.kwargs.get('pk'))
+# class IsUser(BasePermission):
+#     def has_permission(self, request, view):
+#         # Seul le user peut modifier ou supprimer ses données
+#         if request.method in SAFE_METHODS:
+#             return True
+#         return request.user.id == int(view.kwargs.get('pk'))
 
 
 class IsContributor(BasePermission):

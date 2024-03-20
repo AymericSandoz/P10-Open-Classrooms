@@ -1,8 +1,8 @@
 from django.urls import path, include
 from rest_framework import routers
-from .views import ProjectViewSet
+from .views import IssueViewSet
 router = routers.SimpleRouter()
-router.register('project', ProjectViewSet, basename='project')
+router.register('issue', IssueViewSet, basename='issue')
 
 urlpatterns = [
     path('', include(router.urls)),

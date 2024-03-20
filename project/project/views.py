@@ -1,41 +1,16 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from .models import Contributor, User, Project, Issue, Comment
-from .serializers import ContributorSerializer, UserSerializer, ProjectSerializer, IssueSerializer, CommentSerializer
-from django.shortcuts import get_object_or_404
-from .permissions import IsUserAuthenticated, IsContributor, IsAuthorOrReadOnly, IsUser
+from .models import Project
+from contributor.models import Contributor
+from issue.models import Issue
+from comment.models import Comment
+from user.models import User
+from .serializers import ProjectSerializer
+from issue.serializers import IssueSerializer
+from comment.serializers import CommentSerializer
+from user.permissions import IsUserAuthenticated, IsContributor, IsAuthorOrReadOnly
 from django.core.exceptions import ObjectDoesNotExist
-from rest_framework.exceptions import PermissionDenied
-
-
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = [IsUser]
-
-    @action(detail=True, methods=['get'])
-    def projects(self, request, pk=None):
-        user = self.get_object()
-        # récupère les noms de tous les projets auxquels l'utilisateur est associé en tant que contributeur.
-        projects = user.contributor_set.all().values('project__name')
-        return Response({"projects": projects})
-
-
-class ContributorViewSet(viewsets.ModelViewSet):
-    queryset = Contributor.objects.all()
-    serializer_class = ContributorSerializer
-    permission_classes = [IsUserAuthenticated]
-
-    def perform_create(self, serializer):
-        project_id = self.request.data.get('project')
-        project = get_object_or_404(Project, pk=project_id)
-        if project.author != self.request.user:
-            raise PermissionDenied(
-                "Vous n'êtes pas autorisé à ajouter des contributeurs à ce projet.")
-        contributor = serializer.save(project=project)
-        project.contributors.add(contributor)
-        project.save()
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
