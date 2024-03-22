@@ -91,3 +91,5 @@ Les requêtes se résolvent rapidement (un temps de réponse acceptable devrait 
 Un user non connecter peut voir tous les users
 
 A la création d'un projet il faut pouvoir tout rentrer
+
+http://127.0.0.1:8000/api/issue/2/change_status/

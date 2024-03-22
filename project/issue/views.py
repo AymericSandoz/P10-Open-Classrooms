@@ -21,7 +21,7 @@ class IssueViewSet(viewsets.ModelViewSet):
             pass
         serializer.save(author=user)
 
-    @action(detail=True, methods=['update'])
+    @action(detail=True, methods=['patch'])
     def change_status(self, request, pk=None):
         issue = self.get_object()
         status = request.data.get('status')
