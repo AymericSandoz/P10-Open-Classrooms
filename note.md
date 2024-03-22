@@ -11,6 +11,7 @@ et non pas juste python manage.py makemigrations
 
 # Lancer l'application
 
+pipenv shell
 cd project
 python manage.py runserver
 
@@ -84,3 +85,9 @@ Imbriquez les serializers pour la multiplication des requetes. Nottament quand j
 Le listage des ressources est bridé par l’implémentation d’une pagination ;
 
 Les requêtes se résolvent rapidement (un temps de réponse acceptable devrait être inférieur à 200 ms) ;
+
+# Dernier truc à fix
+
+Un user non connecter peut voir tous les users
+
+A la création d'un projet il faut pouvoir tout rentrer

@@ -1,6 +1,6 @@
 from django.db import models
 from contributor.models import Contributor
-from project.models import Project
+from iproject.models import Project
 from user.models import User
 
 

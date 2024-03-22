@@ -1,5 +1,5 @@
 from rest_framework.permissions import BasePermission, SAFE_METHODS
-from project.models import Project
+from iproject.models import Project
 from issue.models import Issue
 from comment.models import Comment
 from django.core.exceptions import ObjectDoesNotExist

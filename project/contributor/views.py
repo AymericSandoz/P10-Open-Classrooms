@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 from .models import Contributor
-from project.models import Project
+from iproject.models import Project
 from .serializers import ContributorSerializer
 from django.shortcuts import get_object_or_404
 from user.permissions import IsUserAuthenticated

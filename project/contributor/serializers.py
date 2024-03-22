@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Contributor, User
-from project.models import Project
+from iproject.models import Project
 
 
 class ContributorSerializer(serializers.ModelSerializer):

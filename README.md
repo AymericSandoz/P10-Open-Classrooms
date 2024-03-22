@@ -22,3 +22,26 @@
 - `IsContributor`: Seuls les contributeurs d'un projet sont autorisés
 - `IsUserAuthenticated`: Seuls les utilisateurs authentifiés sont autorisés
 - `IsAdminAuthenticated`: Seuls les administrateurs authentifiés sont autorisés
+
+## Body pour la création des différentes ressources :
+
+### Authentification
+
+body :
+{"username":"test",
+"password":test}
+
+## project
+
+{
+"name":"project name",
+"description":"projet 1 description",
+"type":"frontend"
+}
+
+## Contributor
+
+{
+"project": null,
+"user": null
+}
