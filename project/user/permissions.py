@@ -20,12 +20,17 @@ class IsUserAuthenticated(BasePermission):
         return bool(request.user and request.user.is_authenticated)
 
 
-# class IsUser(BasePermission):
-#     def has_permission(self, request, view):
-#         # Seul le user peut modifier ou supprimer ses données
-#         if request.method in SAFE_METHODS:
-#             return True
-#         return request.user.id == int(view.kwargs.get('pk'))
+class IsSelfOrReadOnly(BasePermission):
+    """
+    Object-level permission to only allow users to edit their own information.
+    Assumes the model instance has an `id` attribute.
+    """
+
+    def has_object_permission(self, request, view, obj):
+        if request.method in SAFE_METHODS:
+            return True
+
+        return obj.id == request.user.id
 
 
 class IsContributor(BasePermission):
@@ -100,3 +105,10 @@ class IsContributorOrReadOnly(BasePermission):
             contributors_ids = [
                 contributor.user.id for contributor in obj.contributors.all()]
         return request.user.id in contributors_ids
+
+
+class IsAuthenticatedOrPostOnly(BasePermission):
+    def has_permission(self, request, view):
+        if request.method == 'POST':
+            return True
+        return bool(request.user and request.user.is_authenticated)

@@ -7,7 +7,11 @@
       "request": "launch",
       "program": "${workspaceFolder}/project/manage.py",
       "args": ["runserver"],
-      "django": true
+      "django": true,
+      "terminal.integrated.env.windows": {
+        "PYTHONPATH": "${workspaceFolder}"
+      },
+      "python.terminal.activateEnvironment": true
     }
   ]
 }

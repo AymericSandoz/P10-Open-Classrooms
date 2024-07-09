@@ -3,13 +3,13 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from .models import User
 from .serializers import UserSerializer
-# from .permissions import IsUser
+from .permissions import IsAuthenticatedOrPostOnly, IsSelfOrReadOnly
 
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    # permission_classes = [IsUser]
+    permission_classes = [IsAuthenticatedOrPostOnly, IsSelfOrReadOnly]
 
     @action(detail=True, methods=['get'])
     def projects(self, request, pk=None):

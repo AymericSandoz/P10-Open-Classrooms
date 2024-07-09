@@ -24,6 +24,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
         project.contributors.add(contributor)
         project.save()  # Save the project again  # Save the author as a User
 
-    # def get_queryset(self):
-    #     # Renvoie uniquement les projets auxquels l'utilisateur est associé en tant que contributeur
-    #     return Project.objects.filter(contributors__user=self.request.user)
+    def get_queryset(self):
+        # Renvoie uniquement les projets auxquels l'utilisateur est associé en tant que contributeur
+        return Project.objects.filter(contributors__user=self.request.user)

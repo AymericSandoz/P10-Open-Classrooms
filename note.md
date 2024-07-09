@@ -15,6 +15,11 @@ pipenv shell
 cd project
 python manage.py runserver
 
+# Lancer l'application via le debugger
+
+Choisir l'interpreteur avec env dedans
+Run le debugger
+
 # créer un superuser
 
 cd project
