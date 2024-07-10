@@ -4,9 +4,10 @@
 
 1. Clonez le dépôt: `git clone <url_du_dépôt>`
 2. Naviguez vers le répertoire du projet: `cd projet`
-3. Installez les dépendances: `pip install -r requirements.txt`
-4. Appliquez les migrations: `python manage.py makemigrations` et `python manage.py migrate`
-5. Lancez le serveur: `python manage.py runserver`
+3. Installez les dépendances avec `pipenv`: `pipenv install`
+4. Activez l'environnement virtuel: `pipenv shell`
+5. Appliquez les migrations: `python manage.py makemigrations` et `python manage.py migrate`
+6. Lancez le serveur: `python manage.py runserver`
 
 ## Points d'accès API
 
@@ -22,26 +23,3 @@
 - `IsContributor`: Seuls les contributeurs d'un projet sont autorisés
 - `IsUserAuthenticated`: Seuls les utilisateurs authentifiés sont autorisés
 - `IsAdminAuthenticated`: Seuls les administrateurs authentifiés sont autorisés
-
-## Body pour la création des différentes ressources :
-
-### Authentification
-
-body :
-{"username":"test",
-"password":test}
-
-## project
-
-{
-"name":"project name",
-"description":"projet 1 description",
-"type":"frontend"
-}
-
-## Contributor
-
-{
-"project": null,
-"user": null
-}

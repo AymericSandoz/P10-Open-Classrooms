@@ -21,11 +21,6 @@ class IsUserAuthenticated(BasePermission):
 
 
 class IsSelfOrReadOnly(BasePermission):
-    """
-    Object-level permission to only allow users to edit their own information.
-    Assumes the model instance has an `id` attribute.
-    """
-
     def has_object_permission(self, request, view, obj):
         if request.method in SAFE_METHODS:
             return True
