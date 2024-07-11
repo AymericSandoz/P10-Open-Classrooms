@@ -25,8 +25,14 @@ class IssueSerializer(serializers.ModelSerializer):
         return data
 
     def update(self, instance, validated_data):
-        """ Il n'est pas possible de modifier le Project d'une Issue après sa création."""
+        # Il n'est pas possible de modifier le project d'une issue après sa création
         if 'project' in validated_data:
-            validated_data.pop('project')
+            # Si le project dans validated_data est différent de celui déjà associé à l'instance
+            if validated_data['project'] != instance.project:
+                raise serializers.ValidationError(
+                    {'project': ["Le champ Project ne peut pas être modifié après la création de l'Issue."]})
+            else:
+                # Si le project est le même, on le retire de validated_data pour éviter une mise à jour inutile
+                validated_data.pop('project')
 
         return super().update(instance, validated_data)
