@@ -10,7 +10,6 @@ from django.core.exceptions import ObjectDoesNotExist
 
 
 class IssueViewSet(viewsets.ModelViewSet):
-    # queryset = Issue.objects.all()
     serializer_class = IssueSerializer
     permission_classes = [IsUserAuthenticated,
                           IsAuthorOrReadOnly, IsContributor]

@@ -22,4 +22,3 @@
 - `IsAuthorOrReadOnly`: Seul l'auteur est autorisé ou les méthodes GET et HEAD
 - `IsContributor`: Seuls les contributeurs d'un projet sont autorisés
 - `IsUserAuthenticated`: Seuls les utilisateurs authentifiés sont autorisés
-- `IsAdminAuthenticated`: Seuls les administrateurs authentifiés sont autorisés
