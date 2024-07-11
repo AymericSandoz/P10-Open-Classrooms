@@ -13,7 +13,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get'])
     def projects(self, request, pk=None):
+        """ Récupère les noms de tous les projets auxquels l'utilisateur est associé en tant que contributeur."""
         user = self.get_object()
-        # récupère les noms de tous les projets auxquels l'utilisateur est associé en tant que contributeur.
         projects = user.contributor_set.all().values('project__name')
         return Response({"projects": projects})

@@ -14,8 +14,6 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    # si je met ça je suis toujorus redirigé vers le login
-    # path('api/', admin.site.urls),
     path('api/', include('iproject.urls')),
     path('api/', include('issue.urls')),
     path('api/', include('contributor.urls')),

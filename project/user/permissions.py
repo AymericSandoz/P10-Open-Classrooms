@@ -5,15 +5,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.exceptions import PermissionDenied
 
 
-# class IsAdminAuthenticated(BasePermission):
-
-#     def has_permission(self, request, view):
-#         # Ne donnons l’accès qu’aux utilisateurs administrateurs authentifiés
-#         return bool(request.user and request.user.is_authenticated and request.user.is_superuser)
-
-
 class IsUserAuthenticated(BasePermission):
-    """ Permission personnalisée pour n'autoriser que les utilisateurs authentifiés à accéder à une ressource."""
+    """ Permission personnalisée pour n'autoriser que les
+    utilisateurs authentifiés à accéder à n'importe quelle ressource."""
 
     def has_permission(self, request, view):
         return bool(request.user and request.user.is_authenticated)
@@ -23,7 +17,6 @@ class IsSelfOrReadOnly(BasePermission):
     """ Permission personnalisée pour n'autoriser que l'utilisateur à accéder à ses propres données."""
 
     def has_object_permission(self, request, view, obj):
-        # Seul l'utilisateur peut modifier ses propres données
         if request.method in SAFE_METHODS:
             return True
 
@@ -31,7 +24,8 @@ class IsSelfOrReadOnly(BasePermission):
 
 
 class IsContributor(BasePermission):
-    """ Permission personnalisée pour n'autoriser que les contributeurs d'un projet à créer des issues ou des commentaires."""
+    """ Permission personnalisée pour n'autoriser que les contributeurs
+    d'un projet à créer des issues ou des commentaires."""
 
     def has_permission(self, request, view):
         if request.method == 'POST':
@@ -57,43 +51,14 @@ class IsContributor(BasePermission):
             contributor_users = [
                 contributor.user for contributor in project.contributors.all()]
 
-            # L'utilisateur a la permission si il fait partie des contributeurs du projet
             return request.user in contributor_users
 
         else:
             return True
 
-    # def has_object_permission(self, request, view, obj):
-    #     # Determine the project based on the type of obj
-    #     if isinstance(obj, Comment):
-    #         project = obj.issue.project
-    #     elif isinstance(obj, Issue):
-    #         project = obj.project
-    #     elif isinstance(obj, Project):
-    #         project = obj
-    #     else:
-    #         return False
-
-    #     # Only the contributors of the project can access the object
-    #     contributors_ids = [
-    #         contributor.user.id for contributor in project.contributors.all()]
-    #     return request.user.id in contributors_ids
-
 
 class IsAuthorOrReadOnly(BasePermission):
     """ Permission personnalisée pour n'autoriser que l'auteur à modifier ses propres ressources."""
-
-    # def has_permission(self, request, view):
-    #     if request.method == 'POST':
-    #         project_id = request.data.get('project')
-    #         try:
-    #             project = Project.objects.get(id=project_id)
-    #         except ObjectDoesNotExist:
-    #             return PermissionDenied(
-    #                 "Le projet spécifié n'existe pas.")
-    #         return request.user.id == project.author.id
-    #     else:
-    #         return True
 
     def has_object_permission(self, request, view, obj):
         # Seul l'auteur de l'objet peut le modifier(Attentions has_object_permission ne marche pas pour Post et GETLIST)
@@ -103,22 +68,9 @@ class IsAuthorOrReadOnly(BasePermission):
         return obj.author == request.user
 
 
-# class IsContributorOrReadOnly(BasePermission):
-#     """
-#     Custom permission to only allow contributors of a project to create related objects.
-#     """
-
-#     def has_object_permission(self, request, view, obj):
-#         if request.method in SAFE_METHODS:
-#             return True
-
-#         else:
-#             contributors_ids = [
-#                 contributor.user.id for contributor in obj.contributors.all()]
-#         return request.user.id in contributors_ids
-
-
 class IsAuthenticatedOrPostOnly(BasePermission):
+    """ Permission personnalisée pour n'autoriser les users non authentifiés qu'à se créer un compte."""
+
     def has_permission(self, request, view):
         if request.method == 'POST':
             return True
