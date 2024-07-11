@@ -1,9 +1,12 @@
 from rest_framework import serializers
 from user.models import User
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth import password_validation
 
 
 class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
     class Meta:
         model = User
         fields = ["username", "age", "password", "email",
@@ -11,6 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def validate_password(self, value):
         """ hash le mdp avant de l'enregistrer"""
+        password_validation.validate_password(value)
         return make_password(value)
 
     def validate(self, data):
