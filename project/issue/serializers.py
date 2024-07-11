@@ -23,3 +23,10 @@ class IssueSerializer(serializers.ModelSerializer):
                 "Le Contributor que vous essayez d'assigner n'est pas un contributeur du Project")
 
         return data
+
+    def update(self, instance, validated_data):
+        """ Il n'est pas possible de modifier le Project d'une Issue après sa création."""
+        if 'project' in validated_data:
+            validated_data.pop('project')
+
+        return super().update(instance, validated_data)
