@@ -24,7 +24,13 @@ class UserSerializer(serializers.ModelSerializer):
         return data
 
     def to_representation(self, instance):
-        """N'affiche que les champs id, username et email lors des GET"""
+        """Affiche tous les champs si l'utilisateur à représenter est l'utilisateur connecté,
+          sinon seulement username et email."""
         ret = super().to_representation(instance)
-        # Selectively return fields for GET requests
-        return {key: ret[key] for key in ret if key in ["username", "email"]}
+        request = self.context.get('request')
+        if request and request.user == instance:
+            # Si l'utilisateur connecté est le même que celui à représenter, retourner tous les champs.
+            return ret
+        else:
+            # Sinon, retourner uniquement username et email.
+            return {"username": ret["username"], "email": ret["email"]}
