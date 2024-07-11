@@ -14,5 +14,5 @@ class User(AbstractUser):
     def save(self, *args, **kwargs):
         if self.can_data_be_shared and self.age < 15:
             raise ValidationError(
-                'User must be at least 18 years old to share data.')
+                'User must be at least 15 years old to share data.')
         super().save(*args, **kwargs)

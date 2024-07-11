@@ -13,11 +13,11 @@ class IssueSerializer(serializers.ModelSerializer):
                   'assigned_to', 'project', 'priority', 'tag']
 
 
-def create(self, validated_data):
-    author_username = validated_data.pop('author')
-    author, created = User.objects.get_or_create(username=author_username)
-    issue = Issue.objects.create(author=author, **validated_data)
-    return issue
+# def create(self, validated_data):
+#     author_username = validated_data.pop('author')
+#     author, created = User.objects.get_or_create(username=author_username)
+#     issue = Issue.objects.create(author=author, **validated_data)
+#     return issue
 
 
 def validate(self, data):

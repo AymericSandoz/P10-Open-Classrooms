@@ -22,6 +22,7 @@ class IsUserAuthenticated(BasePermission):
 
 class IsSelfOrReadOnly(BasePermission):
     def has_object_permission(self, request, view, obj):
+        # Seul l'utilisateur peut modifier ses propres données
         if request.method in SAFE_METHODS:
             return True
 
@@ -47,7 +48,8 @@ class IsContributor(BasePermission):
             return request.user in contributor_users
 
         # Pour les autres types de requêtes, autorisez l'accès
-        return True
+        else:
+            return True
 
     def has_object_permission(self, request, view, obj):
         # Determine the project based on the type of obj
@@ -87,19 +89,19 @@ class IsAuthorOrReadOnly(BasePermission):
         return obj.author == request.user
 
 
-class IsContributorOrReadOnly(BasePermission):
-    """
-    Custom permission to only allow contributors of a project to create related objects.
-    """
+# class IsContributorOrReadOnly(BasePermission):
+#     """
+#     Custom permission to only allow contributors of a project to create related objects.
+#     """
 
-    def has_object_permission(self, request, view, obj):
-        if request.method in SAFE_METHODS:
-            return True
+#     def has_object_permission(self, request, view, obj):
+#         if request.method in SAFE_METHODS:
+#             return True
 
-        else:
-            contributors_ids = [
-                contributor.user.id for contributor in obj.contributors.all()]
-        return request.user.id in contributors_ids
+#         else:
+#             contributors_ids = [
+#                 contributor.user.id for contributor in obj.contributors.all()]
+#         return request.user.id in contributors_ids
 
 
 class IsAuthenticatedOrPostOnly(BasePermission):

@@ -17,12 +17,11 @@ class ProjectViewSet(viewsets.ModelViewSet):
             user = User.objects.get(id=self.request.user.id)
         except ObjectDoesNotExist:
             pass
-        project = serializer.save(author=user)  # Save the project first
+        project = serializer.save(author=user)
         contributor = Contributor.objects.create(
-            user=user, project=project)  # Then create the contributor
-        # Add the contributor to the project
+            user=user, project=project)
         project.contributors.add(contributor)
-        project.save()  # Save the project again  # Save the author as a User
+        project.save()
 
     def get_queryset(self):
         # Renvoie uniquement les projets auxquels l'utilisateur est associé en tant que contributeur
