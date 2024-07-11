@@ -17,6 +17,18 @@
 - `/api/comment/`: Point d'accès pour les commentaires
 - `/api/contributor/`: Point d'accès pour lier les projets aux utilisateurs
 
+## Documentation API avec Swagger
+
+Ce projet est configuré avec Swagger, un outil de documentation d'API qui facilite la visualisation et l'interaction avec les points d'accès de l'API. Swagger offre une interface utilisateur web pour voir toutes les routes disponibles, leurs méthodes, paramètres, et permet également de tester les endpoints directement depuis votre navigateur.
+
+### Comment accéder à la documentation Swagger ?
+
+1. Assurez-vous que le serveur du projet est en cours d'exécution.
+2. Ouvrez votre navigateur web et naviguez vers l'URL suivante : `http://localhost:8000/swagger/`
+3. Vous serez accueilli par l'interface utilisateur de Swagger, où vous pourrez parcourir la documentation de l'API, voir les détails des routes, et exécuter des requêtes de test.
+
+La documentation Swagger est automatiquement générée à partir des routes de l'API, ce qui garantit qu'elle est toujours à jour avec les dernières modifications du code.
+
 ## Points d'accès API spécifiques
 
 ### Assignation de contributeurs à un projet
