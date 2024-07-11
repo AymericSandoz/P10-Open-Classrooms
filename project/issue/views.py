@@ -38,6 +38,9 @@ class IssueViewSet(viewsets.ModelViewSet):
         issue = self.get_object()
         status = request.data.get('status')
 
+        if not status:
+            return Response({"status": "Veuillez fournir un status."})
+
         issue.status = status
         issue.save()
 
