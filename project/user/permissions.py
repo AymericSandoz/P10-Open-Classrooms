@@ -31,7 +31,7 @@ class IsSelfOrReadOnly(BasePermission):
 
 
 class IsContributor(BasePermission):
-    """ Permission personnalisée pour n'autoriser que les contributeurs d'un projet à accéder à ses ressources."""
+    """ Permission personnalisée pour n'autoriser que les contributeurs d'un projet à créer des issues ou des commentaires."""
 
     def has_permission(self, request, view):
         if request.method == 'POST':
@@ -51,6 +51,8 @@ class IsContributor(BasePermission):
                     return PermissionDenied(
                         "Le commentaire spécifié n'existe pas.")
                 project = comment.issue.project
+            else:
+                return True
 
             contributor_users = [
                 contributor.user for contributor in project.contributors.all()]
@@ -95,7 +97,8 @@ class IsAuthorOrReadOnly(BasePermission):
 
     def has_object_permission(self, request, view, obj):
         # Seul l'auteur de l'objet peut le modifier(Attentions has_object_permission ne marche pas pour Post et GETLIST)
-        if request.method in SAFE_METHODS:
+        # Seul l'auteur de l'objet peut le modifier sauf dans le cas d'un changement de statut d'une issue.
+        if request.method in SAFE_METHODS or view.action == 'change_status':
             return True
         return obj.author == request.user
 
