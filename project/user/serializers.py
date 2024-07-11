@@ -10,7 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
                   "can_data_be_shared", "can_be_contacted"]
 
     def validate_password(self, value):
-        """ hash the password before saving """
+        """ hash le mdp avant de l'enregistrer"""
         return make_password(value)
 
     def validate(self, data):
@@ -22,3 +22,9 @@ class UserSerializer(serializers.ModelSerializer):
                 'User must be at least 15 years old to share data.')
 
         return data
+
+    def to_representation(self, instance):
+        """N'affiche que les champs id, username et email lors des GET"""
+        ret = super().to_representation(instance)
+        # Selectively return fields for GET requests
+        return {key: ret[key] for key in ret if key in ["username", "email"]}

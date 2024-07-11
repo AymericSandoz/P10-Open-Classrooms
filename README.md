@@ -17,8 +17,16 @@
 - `/api/comment/`: Point d'accès pour les commentaires
 - `/api/contributor/`: Point d'accès pour lier les projets aux utilisateurs
 
+### actions spéciale
+
+- `/api/project/assign_contributors/`: Permet d'assigner des contributeurs à un projet spécifique. Cette action utilise la méthode PATCH pour mettre à jour la liste des contributeurs du projet. Seul l'auteur du projet a accès à cette route.
+- `/api/issue/change_status`: Permet de changer le statut d'une issue. Cette action utilise la méthode PATCH pour mettre à jour le statut de l'issue. Il faut être contributeur du projet de l'issue en question pour utiliser cette route.
+- `/api/user/projects`: Récupère la liste des projets associés à un utilisateur. Cette action utilise la méthode GET pour obtenir les informations des projets.
+
 ## Permissions
 
 - `IsAuthorOrReadOnly`: Seul l'auteur est autorisé ou les méthodes GET et HEAD
 - `IsContributor`: Seuls les contributeurs d'un projet sont autorisés
 - `IsUserAuthenticated`: Seuls les utilisateurs authentifiés sont autorisés
+- `IsSelfOrReadOnly`: Seul les utilisateurs sont autorisés à modifier leurs propres données
+- `IsAuthenticatedOrPostOnly`: Les utilisateurs non authentifiés ne peuvent que utiliser la méthode POST(en l'occurence ici se créer un compte utilisateur)
