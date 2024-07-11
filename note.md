@@ -11,8 +11,14 @@ et non pas juste python manage.py makemigrations
 
 # Lancer l'application
 
+pipenv shell
 cd project
 python manage.py runserver
+
+# Lancer l'application via le debugger
+
+Choisir l'interpreteur avec env dedans
+Run le debugger
 
 # créer un superuser
 
@@ -84,3 +90,11 @@ Imbriquez les serializers pour la multiplication des requetes. Nottament quand j
 Le listage des ressources est bridé par l’implémentation d’une pagination ;
 
 Les requêtes se résolvent rapidement (un temps de réponse acceptable devrait être inférieur à 200 ms) ;
+
+# Dernier truc à fix
+
+Un user non connecter peut voir tous les users
+
+A la création d'un projet il faut pouvoir tout rentrer
+
+http://127.0.0.1:8000/api/issue/2/change_status/
