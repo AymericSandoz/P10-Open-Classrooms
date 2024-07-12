@@ -33,13 +33,6 @@ La documentation Swagger est automatiquement générée à partir des routes de 
 
 ### Assignation de contributeurs à un projet
 
-- **Endpoint**: `/api/project/assign_contributors/`
-- **Méthode**: PATCH
-- **Description**: Permet d'assigner des contributeurs à un projet spécifique. Cette action met à jour la liste des contributeurs du projet.
-- **Accès**: Réservé exclusivement à l'auteur du projet.
-- **Variables requises**:
-  - `users_ids`: Array - Identifiants des utilisateurs à ajouter au projet.
-
 ### Changement de statut d'une issue
 
 - **Endpoint**: `/api/issue/change_status`
