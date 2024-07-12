@@ -11,6 +11,7 @@ class ContributorViewSet(viewsets.ModelViewSet):
     queryset = Contributor.objects.all()
     serializer_class = ContributorSerializer
     permission_classes = [IsUserAuthenticated]
+    http_method_names = ['get', 'post', 'delete']
 
     def perform_create(self, serializer):
         project_id = self.request.data.get('project')
